@@ -39,7 +39,7 @@
       formData.append('file', file);
 
       // Wysłanie żądania POST na serwer
-      fetch('/AlgorytmyAPI/upload', {  // Zaktualizowana ścieżka
+      fetch('http://localhost:5000/upload', {  // Zaktualizowana ścieżka do lokalnego serwera
         method: 'POST',
         body: formData
       })
@@ -60,7 +60,7 @@
       const fileCode = fileCodeInput.value;
 
       // Wysłanie żądania GET na serwer z kodem pliku
-      fetch('/AlgorytmyAPI/download/' + fileCode, {  // Zaktualizowana ścieżka
+      fetch('http://localhost:5000/download/' + fileCode, {  // Zaktualizowana ścieżka do lokalnego serwera
         method: 'GET'
       })
       .then(response => {
