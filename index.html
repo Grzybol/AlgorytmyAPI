@@ -49,7 +49,7 @@
         document.getElementById('uploadStatus').textContent = data;
       })
       .catch(error => {
-        console.error('Wystąpił błąd podczas przesyłania pliku.');
+        console.error('Wystąpił błąd podczas przesyłania pliku:', error); // Dodatkowy komunikat debugowania
         document.getElementById('uploadStatus').textContent = 'Wystąpił błąd podczas przesyłania pliku.';
       });
     }
@@ -80,7 +80,7 @@
         console.log('Plik został pobrany.');
       })
       .catch(error => {
-        console.error(error.message);
+        console.error('Wystąpił błąd podczas pobierania pliku:', error); // Dodatkowy komunikat debugowania
       });
     }
   </script>
