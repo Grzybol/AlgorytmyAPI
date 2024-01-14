@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Przesyłanie i Pobieranie Plików</title>
+</head>
+<body>
+  <!-- Sekcja przesyłania pliku -->
+  <h1>Przesyłanie pliku</h1>
+  <input type="file" id="fileInput">
+  <button id="uploadButton">Wyślij plik</button>
+  <p id="uploadStatus"></p>
+
+  <hr>
+
+  <!-- Sekcja pobierania pliku -->
+  <h1>Pobieranie pliku</h1>
+  <input type="text" id="fileCode" placeholder="Wprowadź kod pliku">
+  <button id="downloadButton">Pobierz plik</button>
+
+  <script>
+     // Po załadowaniu całej strony
+     document.addEventListener("DOMContentLoaded", function() {
+      // Pobierz przyciski
+      const uploadButton = document.getElementById('uploadButton');
+      const downloadButton = document.getElementById('downloadButton');
+
+      // Dodaj obsługę kliknięć
+      uploadButton.addEventListener('click', uploadFile);
+      downloadButton.addEventListener('click', downloadFile);
+     });
+
+     // Funkcja do przesyłania pliku na serwer
+     function uploadFile() {
+      const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      // Tworzenie obiektu FormData do przesłania pliku
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Wysłanie żądania POST na serwer
+      fetch('/AlgorytmyAPI/upload', {  // Zaktualizowana ścieżka
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Plik został przesłany.');
+        document.getElementById('uploadStatus').textContent = data;
+      })
+      .catch(error => {
+        console.error('Wystąpił błąd podczas przesyłania pliku.');
+        document.getElementById('uploadStatus').textContent = 'Wystąpił błąd podczas przesyłania pliku.';
+      });
+    }
+
+    // Funkcja do pobierania pliku z serwera
+    function downloadFile() {
+      const fileCodeInput = document.getElementById('fileCode');
+      const fileCode = fileCodeInput.value;
+
+      // Wysłanie żądania GET na serwer z kodem pliku
+      fetch('/AlgorytmyAPI/download/' + fileCode, {  // Zaktualizowana ścieżka
+        method: 'GET'
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Wystąpił błąd podczas pobierania pliku.');
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        // Tworzenie linku do pobrania pliku
+        const url = window.URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = 'downloaded_file.txt';
+        downloadLink.click();
+        window.URL.revokeObjectURL(url);
+        console.log('Plik został pobrany.');
+      })
+      .catch(error => {
+        console.error(error.message);
+      });
+    }
+  </script>
+</body>
+</html>
