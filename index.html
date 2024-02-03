@@ -2,49 +2,100 @@
 <html>
 <head>
   <title>API Encryption File</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    input[type="file"],
+    input[type="text"],
+    button {
+      margin: 10px 0;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    hr {
+      border: 1px solid #ccc;
+      margin: 20px 0;
+    }
+
+    p {
+      font-size: 16px;
+      color: #333;
+    }
+
+    ::placeholder {
+    color: #333;
+    opacity: 1; /* Firefox */
+    }
+
+
+  </style>
 </head>
 <body>
+  <center>
 
-  <h1>Przesyłanie pliku</h1>
+  <h1>API Encryption File</h1>
+
+  <h2>Przesyłanie pliku</h2>
   <input type="file" id="fileInput">
   <button onclick="uploadFile()">Wyślij plik</button>
   <p id="uploadStatus"></p>
 
   <hr>
 
-  <h1>Pobieranie pliku</h1>
+  <h2>Pobieranie pliku</h2>
   <input type="text" id="fileCode" placeholder="Enter file code">
   <button onclick="downloadFile()">Pobierz plik</button>
 
+  </center>
+
   <script>
      function uploadFile() {
-    var fileInput = document.getElementById('fileInput');
-    var file = fileInput.files[0];
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0];
 
-    var formData = new FormData();
-    formData.append('file', file);
+        var formData = new FormData();
+        formData.append('file', file);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://127.0.0.1:5000/upload', true);
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        var response = JSON.parse(xhr.responseText);
-        console.log('Plik został przesłany. Nazwa zaszyfrowanego pliku:', response.file_id);
-        document.getElementById('uploadStatus').textContent = 'Plik został przesłany. Nazwa zaszyfrowanego pliku: ' + response.file_id;
-      } else {
-        console.error('Wystąpił błąd podczas przesyłania pliku.');
-        document.getElementById('uploadStatus').textContent = 'Wystąpił błąd podczas przesyłania pliku.';
-      }
-    };
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'http://127.0.0.1:5000/upload', true);
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            console.log('Plik został przesłany. Nazwa zaszyfrowanego pliku:', response.file_id);
+            document.getElementById('uploadStatus').textContent = 'Plik został przesłany. Nazwa zaszyfrowanego pliku: ' + response.file_id;
+          } else {
+            console.error('Wystąpił błąd podczas przesyłania pliku.');
+            document.getElementById('uploadStatus').textContent = 'Wystąpił błąd podczas przesyłania pliku.';
+          }
+        };
 
-    xhr.send(formData);
-  }
+        xhr.send(formData);
+    }
+
     function downloadFile() {
       var fileCodeInput = document.getElementById('fileCode');
       var fileCode = fileCodeInput.value;
 
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', 'http://127.0.0.1:5000/download/' + fileCode, true); // Zastąp 'adres_serwera' odpowiednim adresem API
+      xhr.open('GET', 'http://127.0.0.1:5000/download/' + fileCode, true);
       xhr.responseType = 'blob';
       xhr.onload = function () {
         if (xhr.status === 200) {
