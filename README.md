@@ -44,10 +44,6 @@ Plik `index.html` to szablon strony internetowej, która stanowi interfejs użyt
    - Pole tekstowe do wprowadzania kodu zaszyfrowanego pliku.
    - Przycisk "Pobierz plik".
 
-3. Usuwanie pliku:
-   - Pole tekstowe do wprowadzania kodu zaszyfrowanego pliku.
-   - Przycisk "Usuń plik".
-
 ### Skrypty JavaScript:
 - `uploadFile()`: Funkcja obsługuje przesyłanie pliku na serwer i wyświetla odpowiedzi od serwera.
 - `downloadFile()`: Funkcja obsługuje pobieranie pliku z serwera na podstawie kodu zaszyfrowanego pliku.
