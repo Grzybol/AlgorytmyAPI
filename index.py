@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, send_file
 from cryptography.fernet import Fernet
 import os
 import uuid
-from flask_cors import CORS  # Importuj bibliotekę CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
@@ -29,7 +29,7 @@ def upload():
 
     response_data = {
         "message": "File uploaded and encrypted successfully",
-        "file_id": encrypted_filename  # Dodaj nazwę zaszyfrowanego pliku do odpowiedzi
+        "file_id": encrypted_filename 
     }
 
     return response_data
