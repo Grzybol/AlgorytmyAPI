@@ -18,26 +18,27 @@
 
   <script>
      function uploadFile() {
-      var fileInput = document.getElementById('fileInput');
-      var file = fileInput.files[0];
+    var fileInput = document.getElementById('fileInput');
+    var file = fileInput.files[0];
 
-      var formData = new FormData();
-      formData.append('file', file);
+    var formData = new FormData();
+    formData.append('file', file);
 
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://127.0.0.1:5000/upload', true); // Zastąp 'adres_serwera' odpowiednim adresem API
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          console.log('Plik został przesłany.');
-          document.getElementById('uploadStatus').textContent = xhr.responseText; // Aktualizacja komunikatu
-        } else {
-          console.error('Wystąpił błąd podczas przesyłania pliku.');
-          document.getElementById('uploadStatus').textContent = 'Wystąpił błąd podczas przesyłania pliku.'; // Aktualizacja komunikatu
-        }
-      };
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://127.0.0.1:5000/upload', true);
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var response = JSON.parse(xhr.responseText);
+        console.log('Plik został przesłany. Nazwa zaszyfrowanego pliku:', response.file_id);
+        document.getElementById('uploadStatus').textContent = 'Plik został przesłany. Nazwa zaszyfrowanego pliku: ' + response.file_id;
+      } else {
+        console.error('Wystąpił błąd podczas przesyłania pliku.');
+        document.getElementById('uploadStatus').textContent = 'Wystąpił błąd podczas przesyłania pliku.';
+      }
+    };
 
-      xhr.send(formData);
-    }
+    xhr.send(formData);
+  }
     function downloadFile() {
       var fileCodeInput = document.getElementById('fileCode');
       var fileCode = fileCodeInput.value;
